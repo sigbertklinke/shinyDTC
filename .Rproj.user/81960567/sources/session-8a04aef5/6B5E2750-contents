@@ -1,0 +1,25 @@
+Package: shinyDTC
+Type: Package
+Title: Simple Dynamic Timer Control
+Version: 0.1.0
+Authors@R: 
+  person("Sigbert", "Klinke", email="sigbert@hu-berlin.de", role=c("aut", "cre"))
+Description: A dynamic timer control is a Shiny widget that enables time-based processes in applications. 
+    It allows users to execute these processes manually in individual steps or at customizable speeds. 
+    The timer can be paused, resumed, or restarted. This control is particularly well-suited for simulations, 
+    animations, countdowns, or interactive visualizations.
+URL: https://github.com/sigbertklinke/shinyDTC (development version)    
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    rstudioapi,
+    shiny,
+    shinyjs
+Suggests:
+    knitr,
+    rmarkdown,
+    shinydashboard
+VignetteBuilder: knitr

@@ -1,0 +1,30 @@
+#
+# This is a Shiny web application.
+#
+library("shiny")
+library("shinyDTC")
+
+ui <- fluidPage(
+  titlePanel("Dynamic timer control"),
+  sidebarLayout(
+    sidebarPanel(
+      timerInput("test", width="200px")
+    ),
+    mainPanel(
+      verbatimTextOutput("result")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+
+  tr <- timer("test", input, session)
+
+  output$result <- renderText({
+    t <- tr()
+    paste("t is:", t)
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)

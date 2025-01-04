@@ -1,0 +1,26 @@
+{
+    "id": "B3535316",
+    "path": "~/Seafile/SK_Lehre/CRAN/shinyDTC/R/timer.R",
+    "project_path": "R/timer.R",
+    "type": "r_source",
+    "hash": "1668226249",
+    "contents": "",
+    "dirty": false,
+    "created": 1732882381154.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "20,86",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1732882463,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1732882463587,
+    "read_only": false,
+    "read_only_alternatives": []
+}

@@ -1,0 +1,29 @@
+#' run
+#'
+#' Runs an example Shiny app.
+#'
+#' @param dir character: name of the app
+#' @param x data frame: data to pass to the app
+#' @param ... further parameter given to [shiny::runApp()]
+#'
+#' @return invisibly the result of `runApp`
+#' @importFrom shiny runApp
+#' @export
+#'
+#' @examples
+#' if (interactive()) run() # runs the minimal example
+run <- function(dir="mini", x=NULL, ...) {
+  # fidn apps
+  appdir <- system.file('app', package="shiny.dtc")
+  appdir <- list.dirs(appdir, recursive=FALSE)
+  i <- pmatch(dir, basename(appdir), nomatch=0L)
+  if (i==0L) stop(sprintf("'dir' should be one of %s"), paste(basename(appdir), collapse = ", "))
+  # handling data
+  stopifnot("'x' should be a data frame"=is.data.frame(x))
+  tmpfile <- tempfile(pattern="dtc", fileext=".rds")
+  saveRDS(x, tmpfile, version=2)
+  options(shiny.dtc.data=tmpfile)
+  runApp(appdir[i], ...)
+  x <- readRDS(tmpfile)
+  invisible(x)
+}

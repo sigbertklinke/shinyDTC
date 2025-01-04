@@ -1,0 +1,162 @@
+---
+title: "shinyDTC"
+author: "Sigbert Klinke, Kleio Chrysopoulou Tseva & ChatGPT"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: yes
+vignette: >
+  %\VignetteIndexEntry{shinyDTC}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(shinyDTC)
+```
+
+# Introduction
+
+The `shinyDTC` package is designed to provide a versatile timer widget for Shiny applications. This timer functionality allows developers to add precise control over timing in their interactive tools, supporting features like adjustable speeds, step-by-step controls, and reset options. Whether for simulations, animations, or user-controlled processes, `shinyDTC` enables seamless integration of timing elements into Shiny applications. This vignette explores the core timer functions and demonstrates their usage alongside example applications.
+
+# Getting Started
+
+To begin using the `shinyDTC` package, you need to install it. If the package is available on CRAN, you can use the standard installation command. Alternatively, if the package is hosted on GitHub, use `devtools` to install it directly from the repository.
+
+```{r, eval=FALSE}
+# From CRAN
+install.packages("shinyDTC")
+# From GitHub
+devtools::install_github("sigbertklinke/shinyDTC")
+```
+
+Once installed, load the package with `library("shinyDTC")` and you're ready to explore its features.
+
+
+# Integrating Timers in Shiny Applications
+
+In addition to managing example applications, `shinyDTC` provides robust tools for incorporating timers into Shiny applications. Timers can be used to control animations, trigger periodic events, or manage user interaction.
+
+## Creating Timer Inputs with `timerInput`
+
+The `timerInput` function generates a user interface component that combines a slider for speed control with buttons for step and reset actions. This component is useful for creating interactive controls that adjust the timing of events within your application.
+
+```{r, eval=FALSE}
+ui <- fluidPage(
+  timerInput("my_timer", label = "Timer Controller", max = 100)
+)
+
+server <- function(input, output, session) {
+  # Timer logic can be added here
+}
+
+shinyApp(ui, server)
+```
+
+## Updating Timers Dynamically
+
+Once a timer input has been created, you may want to update its state dynamically based on user actions or other events. The `updateTimerInput` function allows you to programmatically modify the timer's speed, step, and reset controls.
+
+```{r, eval=FALSE}
+observeEvent(input$some_event, {
+  updateTimerInput(session, "my_timer", value = 50)
+})
+```
+
+## Controlling Timers Programmatically
+
+`shinyDTC` also provides utility functions like `stepTimer` and `resetTimer`, which simulate button presses for the step and reset actions, respectively. These functions are particularly useful when you want to programmatically control the timer's behavior.
+
+```{r, eval=FALSE}
+# Trigger the step button
+stepTimer("my_timer")
+# Reset the timer
+resetTimer("my_timer")
+```
+
+# Managing Example Applications with `openApp` and `runAppx`
+
+Another functionality of `shinyDTC` is managing and launching example Shiny applications. The `openApp` function allows you to quickly open a specific example application provided within the package. By specifying the `dir` parameter, you can select the desired example from the available options. If the specified directory does not match any of the available examples, an error message will be displayed.
+
+```{r, eval=FALSE}
+# A minimal example
+runAppx()
+```
+
+The `runAppx` function extends this capability by allowing you to pass additional data to the application. This function not only launches the application but also enables seamless integration of custom datasets. For example, you can provide a data frame as input, which will then be available for use within the Shiny application.
+
+```{r, eval=FALSE}
+# Launch the "mini" application with additional data
+data <- data.frame(a = 1:10, b = 11:20)
+runAppx(example = "mini", x = data)  # runAppx("mini", data) would be OK too
+```
+
+If you are unsure which example applications are available, you can retrieve a list of options by inspecting the directories under `system.file('examples-shiny', package='shinyDTC')`.
+
+# Shiny apps
+
+## Mini
+
+This Shiny web application demonstrates the use of the `shinyDTC` timer widget for dynamic control over time-based interactions. The application provides an intuitive interface with a timer slider and buttons to control the timing behavior.
+
+__Features:__
+1. __Timer Slider:__ Adjust the speed of the timer interactively.
+2. __Step and Reset Buttons:__
+    + The Step button advances the timer by one unit.
+    + The Reset button resets the timer to zero.
+3. __Dynamic Feedback:__ The main panel displays the current timer value (t) in real-time, allowing users to see the immediate effects of their inputs.
+
+__How to Use:__
+
+* Call the app via 
+```{r, eval=FALSE}
+runAppx() 
+```
+* Adjust the slider to set the speed of the timer.
+* Click the Step button to increment the timer manually.
+* Reset the timer at any time using the Reset button.
+
+This example showcases how to seamlessly integrate and utilize `shinyDTC`'s timer features within a Shiny application, enabling developers to build more interactive and responsive user interfaces.
+
+## K-Means
+
+The app is a dynamic web application designed to help users explore and visualize various clustering algorithms. With an interactive user interface, the app provides real-time clustering results based on popular methods, including K-Means, K-Median, K-Means++, and K-Medoid. By adjusting parameters such as the number of clusters and the clustering method, users can see how the data is grouped and observe the convergence of clustering algorithms.
+
+```{r, eval=FALSE}
+runAppx("kmeans", faithful)  # Default data set
+```
+
+__Key Features:__
+
+* __Clustering Methods:__ Choose from K-Means, K-Median, K-Means++, and K-Medoid algorithms to perform clustering on your dataset.
+* __Interactive Controls:__ Adjust the number of clusters and select different methods to see their effects on the data clustering.
+* __Real-Time Visualization:__ Watch as the clustering results evolve in real-time with visualizations that show the clustering progress and distances to the centers.
+* __Timer Integration:__ Monitor the iterative steps of the clustering process with a timer that tracks the changes in clustering configuration.
+* __Data Customization:__ Input your own dataset or use the default data to explore clustering techniques.
+
+__How It Works:__
+
+* The app allows you to upload a dataset or use the built-in example data.
+* Based on your selections, the app performs clustering and displays the results in an interactive plot.
+* The distance from each data point to the cluster centers is visualized, and you can observe how the algorithm optimizes the clusters over time.
+
+__Application Use Cases:__
+
+* __Educational Tool:__ Learn how different clustering algorithms work by visualizing their behavior.
+* __Data Exploration:__ Use clustering methods to identify patterns or groupings in datasets.
+* __Algorithm Comparison:__ Compare different clustering algorithms (e.g., K-Means vs. K-Median) on the same dataset to see how the results differ.
+
+This app is perfect for anyone interested in clustering techniques, from data science beginners to experienced analysts looking for a visual representation of the clustering process.
+
+

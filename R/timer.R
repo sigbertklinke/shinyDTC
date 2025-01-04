@@ -1,0 +1,43 @@
+#' timer
+#'
+#' A reactive function.
+#'
+#' @param inputId character: input slot for a timer
+#' @param input an inpur object
+#' @param session a session object
+#' @param ... further parameters for [shiny::reactive()]
+#'
+#' @return a reactive function which returns a counter
+#' @importFrom shiny reactive invalidateLater
+#' @export
+#'
+#' @examples
+#' if (interactive()) vignette("shinyDTC")
+timer <- function(inputId, input, session, ...) {
+  reactive({
+    #browser()
+    ret  <- NULL
+    ival <- paste0(inputId, "_step")
+    if (is.null(timerenv[[ival]])) stop(sprintf("timer '%s' does not exist", inputId))
+    val  <- input[[ival]]
+    if (val>timerenv[[ival]]) { # step pressed
+      timerenv[[ival]]    <- timerenv[[ival]]+1
+      timerenv[[inputId]] <- timerenv[[inputId]]+1
+    }
+    ival <- paste0(inputId, "_reset")
+    val  <- input[[ival]]
+    if (val>timerenv[[ival]]) { # reset pressed
+      timerenv[[ival]]    <- timerenv[[ival]]+1
+      timerenv[[inputId]] <- 0
+    }
+    val <- input[[paste0(inputId, "_speed")]]
+    if (val>0) {
+      #browser()
+      max    <- timerenv[[paste0(inputId, '_max')]]
+      millis <- 10+3000/val
+      timerenv[[inputId]] <- timerenv[[inputId]]+1
+      invalidateLater(millis, session)
+    }
+    timerenv[[inputId]]
+  }, ...)
+}

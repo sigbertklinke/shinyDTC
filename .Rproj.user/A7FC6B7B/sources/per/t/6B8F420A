@@ -1,0 +1,26 @@
+{
+    "id": "6B8F420A",
+    "path": "~/Seafile/SK_Lehre/CRAN/shiny.dtc/R/run.R",
+    "project_path": null,
+    "type": "r_source",
+    "hash": "2295421819",
+    "contents": "",
+    "dirty": false,
+    "created": 1732861249590.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "22,42",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1732882250,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1732882250012,
+    "read_only": false,
+    "read_only_alternatives": []
+}

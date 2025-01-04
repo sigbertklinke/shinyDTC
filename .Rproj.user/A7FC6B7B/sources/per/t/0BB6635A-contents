@@ -1,0 +1,52 @@
+---
+title: "shinyDTC"
+author: "Sigbert Klinke, Kleio Chrysopoulou Tseva"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    toc: yes
+  rmarkdown::html_vignette:
+    toc: true
+  html_document:
+    toc: yes
+vignette: >
+  %\VignetteIndexEntry{shinyDTC}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(shinyDTC)
+```
+
+# A minimal example
+
+`runAppx()`
+
+# Package functions
+
+## Timer 
+
+The timer widget includes a speed slider and two buttons: one for stepwise increasing the timer and another for resetting it.
+
+* `timerInput`
+* `timer`
+* `updateTimerInput`
+* `resetTimer`
+* `stepTimer`
+
+## Handling Shiny Apps
+
+* `openApp`
+* `runAppx`
+
+# $k$-Means visualisation
+
+`runAppx("kmeans")`

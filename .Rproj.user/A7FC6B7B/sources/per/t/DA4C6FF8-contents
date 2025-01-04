@@ -1,0 +1,71 @@
+makeplot <- function(x, centers, cluster) {
+  cols <- rainbow(max(cluster))
+  xr <- rbind(x, centers)
+  plot(x, pch=19, col=cols[cluster], xlim=range(xr[,1]), ylim=range(xr[,2]))
+  points(centers, pch="+", cex=2, col=cols)
+}
+
+distance <- function(x, y, method="euclidean") {
+  n <- nrow(x)
+  k <- nrow(y)
+  as.matrix(dist(rbind(y, x), method=method))[k+1:n,1:k]
+}
+
+n  <- 20
+k  <- 2
+x  <- scale(faithful)
+xs <- x[sample(nrow(x), n),]
+
+# kmeans
+centers <- matrix(runif(2*k, -1.5, 1.5), ncol=2)
+#
+d       <- distance(xs, centers)
+cluster <- apply(d, 1, which.min)
+makeplot(xs, centers, cluster)
+centers <- matrix(NA, nrow=k, ncol=2)
+for (i in 1:k) centers[i,] <- apply(xs[cluster==i,], 2, mean)
+
+# kmedian
+centers <- matrix(runif(2*k, -1.5, 1.5), ncol=2)
+#
+d       <- distance(xs, centers, "manhattan")
+cluster <- apply(d, 1, which.min)
+makeplot(xs, centers, cluster)
+centers <- matrix(NA, nrow=k, ncol=2)
+for (i in 1:k) centers[i,] <- apply(xs[cluster==i,], 2, median)
+
+# kmeans++
+i       <- sample(n, 1)
+centers <- xs[i,,drop=FALSE]
+d       <- distance(xs, centers)
+for (i in 2:k) {
+  i <- sample(n, 1, prob=d)
+  centers <- rbind(centers, xs[i,,drop=FALSE])  
+}
+#
+d       <- distance(xs, centers)
+cluster <- apply(d, 1, which.min)
+makeplot(xs, centers, cluster)
+centers <- matrix(NA, nrow=k, ncol=2)
+for (i in 1:k) centers[i,] <- apply(xs[cluster==i,], 2, mean)
+
+# k-medoid
+centers <- xs[sample(n, k),]
+#
+d       <- distance(xs, centers)
+cluster <- apply(d, 1, which.min)
+makeplot(xs, centers, cluster)
+colSums(d)
+sum(colSums(d))
+# make swap
+i <- sample(n, 1)
+j <- sample(k, 1) 
+scenters     <- centers
+scenters[j,] <- xs[i,]
+#
+d       <- distance(xs, scenters)
+cluster <- apply(d, 1, which.min)
+makeplot(xs, scenters, cluster)
+colSums(d)
+sum(colSums(d))
+if (isTRUE(askYesNo("Update", FALSE))) centers <- scenters
